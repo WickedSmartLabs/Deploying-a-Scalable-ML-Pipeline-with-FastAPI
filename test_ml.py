@@ -1,35 +1,33 @@
 import pytest
+# TODO: add necessary import
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-
 from ml.model import train_model, compute_model_metrics, inference
 
 
 # TODO: implement the first test. Change the function name and input as needed
 def test_one():
     """
-    Test that train_model returns a RandomForestClassifier instance.
+    Ensure that the training function returns a trained
+    RandomForestClassifier object.
     """
     # Your code here
-    X = np.random.rand(20, 5)
-    y = np.random.randint(0, 2, 20)
-
-    model = train_model(X, y)
-
-    assert isinstance(model, RandomForestClassifier)
+    X_sample = np.random.rand(25, 6)
+    y_sample = np.random.randint(0, 2, 25)
+    trained_model = train_model(X_sample, y_sample)
+    assert isinstance(trained_model, RandomForestClassifier)
 
 
 # TODO: implement the second test. Change the function name and input as needed
 def test_two():
     """
-    Test that compute_model_metrics returns float values.
+    Confirm that precision, recall, and F1 score
+    are returned as numeric float values.
     """
     # Your code here
-    y_true = np.array([1, 0, 1, 1])
-    y_pred = np.array([1, 0, 0, 1])
-
-    precision, recall, f1 = compute_model_metrics(y_true, y_pred)
-
+    actual = np.array([1, 0, 1, 0, 1])
+    predicted = np.array([1, 0, 0, 0, 1])
+    precision, recall, f1 = compute_model_metrics(actual, predicted)
     assert isinstance(precision, float)
     assert isinstance(recall, float)
     assert isinstance(f1, float)
@@ -38,13 +36,12 @@ def test_two():
 # TODO: implement the third test. Change the function name and input as needed
 def test_three():
     """
-    Test that inference returns predictions with correct length.
+    Verify that inference returns the same number
+    of predictions as rows in the input data.
     """
     # Your code here
-    X = np.random.rand(15, 4)
-    y = np.random.randint(0, 2, 15)
-
-    model = train_model(X, y)
-    preds = inference(model, X)
-
-    assert len(preds) == len(X)
+    X_data = np.random.rand(18, 4)
+    y_data = np.random.randint(0, 2, 18)
+    model = train_model(X_data, y_data)
+    predictions = inference(model, X_data)
+    assert len(predictions) == X_data.shape[0]
