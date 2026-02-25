@@ -3,16 +3,21 @@ from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
 
 def process_data(
-    X, categorical_features=[], label=None, training=True, encoder=None, lb=None
+    X,
+    categorical_features=[],
+    label=None,
+    training=True,
+    encoder=None,
+    lb=None,
 ):
-    """ Process the data used in the machine learning pipeline.
+    """Process the data used in the machine learning pipeline.
 
     Processes the data using one hot encoding for the categorical features and a
     label binarizer for the labels. This can be used in either training or
     inference/validation.
 
-    Note: depending on the type of model used, you may want to add in functionality that
-    scales the continuous data.
+    Note: depending on the type of model used, you may want to add in functionality such as
+    normalization, PCA, etc. here.
 
     Inputs
     ------
@@ -43,7 +48,6 @@ def process_data(
         Trained LabelBinarizer if training is True, otherwise returns the binarizer
         passed in.
     """
-
     if label is not None:
         y = X[label]
         X = X.drop([label], axis=1)
@@ -69,9 +73,19 @@ def process_data(
     X = np.concatenate([X_continuous, X_categorical], axis=1)
     return X, y, encoder, lb
 
+
 def apply_label(inference):
-    """ Convert the binary label in a single inference sample into string output."""
+    """ Convert binary model output to salary label string.
+    Inputs
+    ------
+    inference : np.array
+        Binary predictions from the model.
+    Returns
+    -------
+    str
+        Salary label: ">50K" or "<=50K"
+    """
     if inference[0] == 1:
         return ">50K"
-    elif inference[0] == 0:
+    else:
         return "<=50K"
